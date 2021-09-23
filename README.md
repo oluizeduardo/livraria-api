@@ -25,5 +25,7 @@ Execute the class `LivrariaApiApplication.java` as a normal Java Application.
 | ------------- |:-----------------------------:| :-----------------------------:|:----------------------------------------------:|
 | POST          | http://localhost:8080/autores |  Set a new author.             | nome, dataNascimento, nacionalidade, curriculo |
 | GET           | http://localhost:8080/autores |  Get a list of authors.        |    |
+| POST          | http://localhost:8080/livros |  Set a new book.             | titulo, dataLancamento, numeroPaginas|
+| GET           | http://localhost:8080/livros |  Get a list of books.        |    |
 
 
