@@ -13,6 +13,9 @@ REST API to control a digital library.
 * [Project Lombok](https://projectlombok.org/)
 * Java 11
 
+# Executing project
+Execute the class `LivrariaApiApplication.java` as a normal Java Application.
+
 # API Test
 * [Postman](https://www.postman.com/)
 
