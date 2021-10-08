@@ -1,32 +1,40 @@
 package br.com.livraria.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.livraria.dto.AutorDTO;
 import br.com.livraria.dto.AutorFormDTO;
 import br.com.livraria.model.Autor;
+import br.com.livraria.repository.AutorRepository;
 
 @Service
 public class AutorService {
 
-	private List<Autor> autores = new ArrayList<Autor>();
+	@Autowired
+	private AutorRepository autorRepository;
 	private ModelMapper modelMapper = new ModelMapper();
+	
 
-	public List<AutorDTO> listar() 
+	public Page<AutorDTO> listar(Pageable paginacao) 
 	{
-		return autores.stream().map(t -> modelMapper.map(t, AutorDTO.class)).collect(Collectors.toList());
+		Page<Autor> autores = autorRepository.findAll(paginacao);
+		return autores.map(a -> modelMapper.map(a, AutorDTO.class));
 	}
 
-	public void cadastrar(AutorFormDTO dto) 
+	@Transactional
+	public AutorDTO cadastrar(AutorFormDTO dto) 
 	{
 		Autor autor = modelMapper.map(dto, Autor.class);
+		autor.setId(null);
+		autorRepository.save(autor);
 		
-		autores.add(autor);
-	}
-
+		return modelMapper.map(autor, AutorDTO.class);
+	}	
+	
 }

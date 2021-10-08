@@ -8,11 +8,19 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter 
 @Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class LivroFormDTO {
 		
 	@NotBlank
@@ -26,5 +34,6 @@ public class LivroFormDTO {
 	private int numeroPaginas;
 	
 	@NotNull(message = "'autor' should not be null.")
-	private AutorFormDTO autor;
+	@JsonAlias("autor_id")
+	private Integer autorId;
 }
