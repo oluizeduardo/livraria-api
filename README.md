@@ -18,6 +18,7 @@ Execute the class `LivrariaApiApplication.java` as a normal Java Application.
 
 # API Test
 * [Postman](https://www.postman.com/)
+  - [Postman collection](https://github.com/oluizeduardo/livraria-api/tree/main/postman)
 
 # Endpoints
 
@@ -27,5 +28,5 @@ Execute the class `LivrariaApiApplication.java` as a normal Java Application.
 | GET           | http://localhost:8080/autores |  Get a list of authors.        |    |
 | POST          | http://localhost:8080/livros  |  Set a new book.               | titulo, dataLancamento, numeroPaginas, autor   |
 | GET           | http://localhost:8080/livros  |  Get a list of books.          |    |
-
+| GET           | http://localhost:8080/relatorios/livraria  |  Get the library reports.          |    |
 
