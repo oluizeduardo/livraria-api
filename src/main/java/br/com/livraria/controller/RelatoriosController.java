@@ -15,11 +15,11 @@ import br.com.livraria.service.RelatorioService;
 public class RelatoriosController {
 
 	@Autowired
-	private RelatorioService service;
+	private RelatorioService relatorioService;
 	
 	@GetMapping("/livraria")
 	public List<ItemLivrariaDTO> relatorioLivraria()
 	{
-		return service.relatorioLivraria();
+		return relatorioService.relatorioLivraria();
 	}
 }

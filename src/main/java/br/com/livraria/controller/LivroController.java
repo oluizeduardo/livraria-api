@@ -26,21 +26,21 @@ import br.com.livraria.service.LivroService;
 public class LivroController {
 	
 	@Autowired
-	private LivroService service;
+	private LivroService livroService;
 	ModelMapper modelMapper = new ModelMapper();
 	
 	
 	@GetMapping
 	public Page<LivroDTO> listar(@PageableDefault(size = 5) Pageable paginacao) 
 	{
-		return service.listar(paginacao);
+		return livroService.listar(paginacao);
 	}
 	
 
 	@PostMapping
 	public ResponseEntity<LivroDTO> cadastrar(@RequestBody @Valid LivroFormDTO dto, UriComponentsBuilder uriBuilder) 
 	{
-		LivroDTO livroDTO = service.cadastrar(dto);
+		LivroDTO livroDTO = livroService.cadastrar(dto);
 		
 		URI uri = uriBuilder.path("/livros/{id}")
 				.buildAndExpand(livroDTO.getId())

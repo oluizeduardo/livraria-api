@@ -27,7 +27,7 @@ public class Livro {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	private String titulo;
 	private LocalDate dataLancamento;
 	@Column(name = "num_paginas")

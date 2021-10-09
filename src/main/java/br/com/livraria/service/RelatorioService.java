@@ -1,6 +1,5 @@
 package br.com.livraria.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +12,11 @@ import br.com.livraria.repository.AutorRepository;
 public class RelatorioService {
 
 	@Autowired
-	private AutorRepository repository;
+	private AutorRepository autorRepository;
 	
 	public List<ItemLivrariaDTO> relatorioLivraria()
-	{
-//		return repository.relatorioLivraria();
-		return new ArrayList<ItemLivrariaDTO>();
+	{	
+		return autorRepository.relatorioLivraria();
 	}
 	
 }

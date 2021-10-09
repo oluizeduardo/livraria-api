@@ -27,7 +27,6 @@ public class AutorController {
 	
 	@Autowired
 	private AutorService autorService;
-	
 	ModelMapper modelMapper = new ModelMapper();
 	
 	
