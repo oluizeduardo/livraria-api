@@ -15,7 +15,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class AutorDTO {
 
-	private Long id;
+	private Integer id;
 	private String nome;
 	private LocalDate dataNascimento;
 	private String nacionalidade;

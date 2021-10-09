@@ -11,14 +11,22 @@ import br.com.livraria.model.Autor;
 public interface AutorRepository extends JpaRepository<Autor, Integer> {
 	
 	@Query("SELECT new br.com.livraria.dto.ItemLivrariaDTO( "
-			+ "a.nome as nomeAutor, "
-			+ "count(li.autor_id) as quantidadeLivros, "
-			+ "ROUND((count(li.autor_id) / "
-				+ "(SELECT count(liTemp.titulo) FROM br.com.livraria.dto.LivroDTO liTemp))*100.0, 2) as percentual) "
-			+ "FROM br.com.livraria.dto.LivroDTO li "
-			+ "JOIN br.com.livraria.dto.AutorDTO a "
-			+ "WHERE li.autor_id = a.id "
-			+ "GROUP BY li.autor_id")
+			// nome
+			+ "a.nome, "
+			// quantidade de livros
+			+ "count(li.autor.id), "
+			// percentual
+			+ "ROUND((count(li.autor.id) / "
+				+ "(SELECT count(li2.autor.id) FROM Livro li2)) * 100.0, 2)) "
+			
+			+ "FROM Livro li "
+			
+			// Junção da entidade Livro com Autor.
+			+ "JOIN li.autor a "			
+			+ "WHERE li.autor.id = a.id "
+			
+			// agrupamento de livros por autor
+			+ "GROUP BY li.autor.id")
 	List<ItemLivrariaDTO> relatorioLivraria();
 	
 }
