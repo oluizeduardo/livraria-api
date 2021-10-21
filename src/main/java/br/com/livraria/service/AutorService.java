@@ -1,6 +1,8 @@
 package br.com.livraria.service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import br.com.livraria.dto.AtualizacaoAutorFormDTO;
 import br.com.livraria.dto.AutorDTO;
 import br.com.livraria.dto.AutorFormDTO;
 import br.com.livraria.model.Autor;
@@ -36,5 +39,30 @@ public class AutorService {
 		
 		return modelMapper.map(autor, AutorDTO.class);
 	}	
+	
+	@Transactional
+	public AutorDTO atualizar(@Valid AtualizacaoAutorFormDTO dto) {
+		Autor autor = autorRepository.getById(dto.getId());		
+		
+		autor.atualizarInformacoes(dto.getNome(), 
+				dto.getDataNascimento(),
+				dto.getNacionalidade(),
+				dto.getCurriculo());
+		
+		return modelMapper.map(autor, AutorDTO.class);
+	}
+
+	@Transactional
+	public void remover(Integer id) 
+	{
+		autorRepository.deleteById(id);
+	}
+
+	public AutorDTO detalhar(Integer id) 
+	{
+		Autor autor = autorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
+		
+		return modelMapper.map(autor, AutorDTO.class);
+	}
 	
 }
