@@ -20,8 +20,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.livraria.dto.AutorDTO;
 import br.com.livraria.dto.AutorFormDTO;
 import br.com.livraria.service.AutorService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
+
+//Documentação Swagger.
+@Api(tags = "Autores")
+
 @RequestMapping("/autores")
 public class AutorController {
 	
@@ -31,6 +37,7 @@ public class AutorController {
 	
 	
 	@GetMapping
+	@ApiOperation("Listar autores")
 	public Page<AutorDTO> listar(@PageableDefault(size = 5) Pageable paginacao) 
 	{
 		return autorService.listar(paginacao);
@@ -38,6 +45,7 @@ public class AutorController {
 	
 	
 	@PostMapping
+	@ApiOperation("Cadastrar novo autor")
 	public ResponseEntity<AutorDTO> cadastrar(@RequestBody @Valid AutorFormDTO dto, UriComponentsBuilder uriBuilder) 
 	{
 		AutorDTO autorDTO = autorService.cadastrar(dto);

@@ -20,8 +20,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.livraria.dto.LivroDTO;
 import br.com.livraria.dto.LivroFormDTO;
 import br.com.livraria.service.LivroService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
+
+//Documentação Swagger.
+@Api(tags = "Livros")
+
 @RequestMapping("/livros")
 public class LivroController {
 	
@@ -31,6 +37,7 @@ public class LivroController {
 	
 	
 	@GetMapping
+	@ApiOperation("Listar livros")
 	public Page<LivroDTO> listar(@PageableDefault(size = 5) Pageable paginacao) 
 	{
 		return livroService.listar(paginacao);
@@ -38,6 +45,7 @@ public class LivroController {
 	
 
 	@PostMapping
+	@ApiOperation("Cadastrar novo livro")
 	public ResponseEntity<LivroDTO> cadastrar(@RequestBody @Valid LivroFormDTO dto, UriComponentsBuilder uriBuilder) 
 	{
 		LivroDTO livroDTO = livroService.cadastrar(dto);
