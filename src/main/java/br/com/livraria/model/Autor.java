@@ -32,6 +32,12 @@ public class Autor {
 	private String curriculo;
 	
 	
+	public Autor(String nome, LocalDate dataNascimento, 
+			String nacionalidade, String curriculo) {
+		
+		atualizarInformacoes(nome, dataNascimento, nacionalidade, curriculo);
+	}	
+	
 	public void atualizarInformacoes(String nome, LocalDate dataNascimento, 
 			String nacionalidade, String curriculo) {
 		this.nome = nome;
@@ -39,5 +45,5 @@ public class Autor {
 		this.nacionalidade = nacionalidade;
 		this.curriculo = curriculo;
 	}
-	
+
 }

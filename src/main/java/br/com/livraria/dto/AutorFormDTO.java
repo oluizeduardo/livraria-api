@@ -27,7 +27,6 @@ public class AutorFormDTO {
 	private LocalDate dataNascimento;
 	
 	@NotBlank(message = "'nacionalidade' is required!")
-	@NotBlank
 	private String nacionalidade;
 	
 	private String curriculo;
