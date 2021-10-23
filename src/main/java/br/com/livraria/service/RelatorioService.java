@@ -16,7 +16,7 @@ public class RelatorioService {
 	
 	public List<ItemLivrariaDTO> relatorioLivraria()
 	{	
-		return autorRepository.relatorioLivraria();
+		return autorRepository.relatorioDeLivrosPorAutor();
 	}
 	
 }

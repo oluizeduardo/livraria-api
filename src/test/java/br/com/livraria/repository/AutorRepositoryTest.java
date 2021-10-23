@@ -1,6 +1,7 @@
-package br.com.livraria.controller;
+package br.com.livraria.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.time.LocalDate;
 
@@ -19,9 +20,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import br.com.livraria.model.Autor;
 import br.com.livraria.model.Livro;
-import br.com.livraria.repository.AutorRepository;
-import br.com.livraria.repository.LivroRepository;
-
 
 //Carrega as funções do Spring antes de inicializar o JUnit.
 @ExtendWith(SpringExtension.class)
@@ -37,51 +35,40 @@ import br.com.livraria.repository.LivroRepository;
 
 //Executa em contexto transacional. Faz o rollback ao final de cada teste.
 @Transactional
-class RelatoriosControllerTest {
+class AutorRepositoryTest {
 
-	/**
-	 * Objeto que simula as requisições HTTP.
-	 */
-	@Autowired
-	private MockMvc mvc; 
-	
 	@Autowired
 	private AutorRepository autorRepository;
 	
 	@Autowired
 	private LivroRepository livroRepository;
-	
+
+	@Autowired
+	private MockMvc mvc;
 	
 	
 	@Test
-	void deveriaEmitirRelatorioDeLivrosPorAutor() throws Exception 
-	{
-		
-		Autor autor1 = new Autor("Fyodor Dostoevsky", 
-								LocalDate.of(1821, 11, 11), 
-								"Russia", 
-								"Autor de livros de românce psicológico.");
-		
-		Autor autor2 = new Autor("Jorge Amado", 
-				LocalDate.of(1912, 8, 10), 
-				"Brasil", 
+	void deveriaEmitirRelatorioDeLivrosPorAutor() throws Exception {
+
+		Autor autor1 = criaAutor("Fyodor Dostoevsky", LocalDate.of(1821, 11, 11), "Russia", 
+				"Autor de livros de românce psicológico.");
+
+		Autor autor2 = criaAutor("Jorge Amado", LocalDate.of(1912, 8, 10), "Brasil",
 				"Romancista bahiano, teve um dos seus livros transformado em filme.");
-		
-		autorRepository.save(autor1);	
+
+		autorRepository.save(autor1);
 		autorRepository.save(autor2);
+
+		Livro livro1 = criaLivro("Crime e Castigo", LocalDate.of(1866, 1, 1), 500, autor1);;
+		Livro livro2 = criaLivro("Guerra e Paz", LocalDate.of(1867, 1, 1), 1225, autor1);
+		Livro livro3 = criaLivro("Capitães da Areia", LocalDate.of(1937, 1, 1), 230, autor2);
 		
-		Livro livro1 = new Livro("Crime e Castigo", LocalDate.of(1866, 1, 1), 500, autor1);
-		Livro livro2 = new Livro("Guerra e Paz", LocalDate.of(1867, 1, 1), 1225, autor1);
-		Livro livro3 = new Livro("Capitães da Areia", LocalDate.of(1937, 1, 1), 230, autor2);
 		livroRepository.save(livro1);
 		livroRepository.save(livro2);
 		livroRepository.save(livro3);
-		
-		
-		MvcResult mvcResult = mvc
-				.perform(MockMvcRequestBuilders.get("/relatorios/livraria"))
-			    .andReturn();
-			 
+
+		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/relatorios/livraria")).andReturn();
+
 		String json = "["
 				+ "{"
 					+ "\"nomeAutor\":\"Fyodor Dostoevsky\","
@@ -93,8 +80,23 @@ class RelatoriosControllerTest {
 					+ "\"quantidadeLivros\":1,"
 					+ "\"percentual\":33.33"
 				+ "}]";
+
+		String jsonResult = mvcResult.getResponse().getContentAsString();
 		
-		assertEquals(json, mvcResult.getResponse().getContentAsString());
+		assertFalse(jsonResult.isEmpty());
+		assertEquals(json, jsonResult);
+		
 	}
+
+
+	private Autor criaAutor(String nome, LocalDate dataNascimento, String nacionalidade, String curriculo) {
+		return new Autor(nome, dataNascimento, nacionalidade, curriculo);
+	}
+
+	private Livro criaLivro(String titulo, LocalDate dataLancamento, int numPaginas, Autor autor) {
+		return new Livro(titulo, dataLancamento, numPaginas, autor);
+	}
+
+
 
 }

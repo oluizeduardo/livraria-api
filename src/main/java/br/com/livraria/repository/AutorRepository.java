@@ -27,6 +27,6 @@ public interface AutorRepository extends JpaRepository<Autor, Integer> {
 			
 			// agrupamento de livros por autor
 			+ "GROUP BY li.autor.id")
-	List<ItemLivrariaDTO> relatorioLivraria();
+	List<ItemLivrariaDTO> relatorioDeLivrosPorAutor();
 	
 }
