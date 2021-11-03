@@ -23,7 +23,8 @@ public class SpringFoxSwaggerConfiguration {
     }
 
 	@SuppressWarnings("deprecation")
-	private ApiInfo apiInfo() {
+	private ApiInfo apiInfo() 
+	{
 		return new ApiInfo("API Livraria online.", 
 				"REST API criada durante a imersão Alura",
 				"1.0",
