@@ -1,6 +1,7 @@
 package br.com.livraria.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.Getter;
@@ -18,6 +19,6 @@ public class UsuarioFormDTO {
 	@Size(min=2, max = 20)
 	private String login;
 	
-//	@NotNull
-//	private Integer perfilId;
+	@NotNull
+	private Integer perfilId;
 }

@@ -53,11 +53,11 @@ public class Usuario implements UserDetails {
 	@NonNull
 	private String senha;
 	
-//	@ManyToMany
-//	@JoinTable(name = "perfis_usuarios", 
-//			   joinColumns = @JoinColumn(name = "usuario_id"), 
-//			   inverseJoinColumns = @JoinColumn(name = "perfil_id"))
-//	private List<Perfil> perfis = new ArrayList<Perfil>();
+	@ManyToMany
+	@JoinTable(name = "perfis_usuarios", 
+			   joinColumns = @JoinColumn(name = "usuario_id"), 
+			   inverseJoinColumns = @JoinColumn(name = "perfil_id"))
+	private List<Perfil> perfis = new ArrayList<Perfil>();
 
 	
 	public Usuario(String nome, String login) {
@@ -68,8 +68,7 @@ public class Usuario implements UserDetails {
 	
 	
 	public void setSenha()
-	{
-		//String strSenha = new String("@"+nome.substring(0, 3).concat(login.substring(0, 3))); 
+	{		
 		// TODO Implementar lógica de geração de senha.
 		String strSenha = "abc123";
 		
@@ -83,10 +82,12 @@ public class Usuario implements UserDetails {
 		this.login = login;
 	}
 
+	/**
+	 * Retorna a lista de perfis de um usuário.
+	 */
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-//		return this.perfis;
-		return null;
+		return this.perfis;
 	}
 
 	@Override
@@ -120,8 +121,8 @@ public class Usuario implements UserDetails {
 	}
 
 
-//	public void addPerfil(Perfil perfil) {
-//		this.perfis.add(perfil);	
-//	}
+	public void addPerfil(Perfil perfil) {
+		this.perfis.add(perfil);	
+	}
 
 }

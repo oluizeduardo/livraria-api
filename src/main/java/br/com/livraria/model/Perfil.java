@@ -24,6 +24,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 @Table(name = "perfis")
+/**
+ * Classe responsável por criar os perfis de usuários no sistema.
+ * 
+ * @author Luiz Costa
+ */
 public class Perfil implements GrantedAuthority {
 
 
@@ -35,7 +40,10 @@ public class Perfil implements GrantedAuthority {
 	private Integer id;
 	
 	private String nome;
-
+	
+	/**
+	 * Retorna uma lista de perfis.
+	 */
 	@Override
 	public String getAuthority() {
 		return this.nome;

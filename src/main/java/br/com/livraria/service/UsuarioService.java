@@ -1,6 +1,7 @@
 package br.com.livraria.service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import br.com.livraria.dto.UsuarioDTO;
 import br.com.livraria.dto.UsuarioFormDTO;
+import br.com.livraria.model.Perfil;
 import br.com.livraria.model.Usuario;
+import br.com.livraria.repository.PerfilRepository;
 import br.com.livraria.repository.UsuarioRepository;
 
 @Service
@@ -19,8 +22,8 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository; 
 	
-//	@Autowired
-//	private PerfilRepository perfilRepository; 
+	@Autowired
+	private PerfilRepository perfilRepository; 
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -37,8 +40,8 @@ public class UsuarioService {
 	{
 		Usuario usuario = modelMapper.map(dto, Usuario.class);
 		
-//		Perfil perfil = perfilRepository.getById(dto.getPerfilId());
-//		usuario.addPerfil(perfil);
+		Perfil perfil = perfilRepository.getById(dto.getPerfilId());
+		usuario.addPerfil(perfil);
 		usuario.setSenha();
 		
 		usuarioRepository.save(usuario);
@@ -57,11 +60,11 @@ public class UsuarioService {
 //		return modelMapper.map(usuario, UsuarioDTO.class);
 //	}
 
-//	@Transactional
-//	public void remover(Integer id) 
-//	{
-//		usuarioRepository.deleteById(id);
-//	}
+	@Transactional
+	public void remover(Integer id) 
+	{
+		usuarioRepository.deleteById(id);
+	}
 //
 	public UsuarioDTO detalhar(Integer id) 
 	{

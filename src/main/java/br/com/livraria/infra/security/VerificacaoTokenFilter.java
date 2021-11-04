@@ -7,10 +7,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.core.token.TokenService;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import br.com.livraria.model.Usuario;
 import br.com.livraria.repository.UsuarioRepository;
+import br.com.livraria.service.TokenService;
 
 public class VerificacaoTokenFilter extends OncePerRequestFilter {
 
@@ -29,30 +33,31 @@ public class VerificacaoTokenFilter extends OncePerRequestFilter {
 			HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-//		String token = request.getHeader("Authorization");
-//		
-//		if(token == null || token.isBlank()) 
-//		{
-//			filterChain.doFilter(request, response);
-//			return;
-//		}
-//		
-//		token = token.replace("Bearer ", "");
-//		
-//		boolean tokenValido = tokenService.isValid(token);
-//		
-//		if(tokenValido)
-//		{
-//			Integer idUsuario = tokenService.extrairIdUsuario(token);
-//			
-//			Usuario usuario = usuarioRepository.carregarPorIdComPerfil(idUsuario).get();
-//			
-//			Authentication authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-//		
-//			SecurityContextHolder.getContext().setAuthentication(authentication);
-//		}
-//		
-//		filterChain.doFilter(request, response);
+		String token = request.getHeader("Authorization");
+		
+		if(token == null || token.isBlank()) 
+		{
+			filterChain.doFilter(request, response);
+			return;
+		}
+		
+		token = token.replace("Bearer ", "");
+		
+		boolean tokenValido = tokenService.isValid(token);
+		
+		if(tokenValido)
+		{
+			Integer idUsuario = tokenService.extrairIdUsuario(token);
+			
+			Usuario usuario = usuarioRepository.carregarPorIdComPerfil(idUsuario).get();
+//			Usuario usuario = usuarioRepository.findById(idUsuario).get();
+			
+			Authentication authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+		
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		}
+		
+		filterChain.doFilter(request, response);
 		
 	}
 

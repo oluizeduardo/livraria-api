@@ -11,8 +11,11 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import br.com.livraria.repository.UsuarioRepository;
 import br.com.livraria.service.AutenticacaoService;
+import br.com.livraria.service.TokenService;
 
 @Configuration
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
@@ -23,12 +26,12 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-//	@Autowired
-//	private TokenService tokenService;
-//	
-//	@Autowired
-//	private UsuarioRepository usuarioRepository;
-//	
+	@Autowired
+	private TokenService tokenService;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception 
@@ -45,12 +48,12 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.POST, "/auth").permitAll()
 			
 			// Somente quem tem perfil de ADMIN pode acessar os recursos de usuários na api.
-			//.antMatchers("/usuarios/**").hasRole("ADMIN")
+			.antMatchers("/usuarios/**").hasRole("ADMIN")
 			
 			// bloqueia todas outras requisições não autenticadas.
 			.anyRequest().authenticated()
 			
-			// gerar o formulário de login.
+			// gerar o formulário de login padrão do Spring.
 			//.and().formLogin()
 			
 			// quando o usuário fizer login, não guarda informações no servidor.
@@ -58,9 +61,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			
 			// desativa o Cross-site Request Forgery.
-			.and().csrf().disable();
-////			.addFilterBefore(new VerificacaoTokenFilter(tokenService, usuarioRepository), 
-////							  UsernamePasswordAuthenticationFilter.class);
+			.and().csrf().disable()
+			.addFilterBefore(new VerificacaoTokenFilter(tokenService, usuarioRepository), 
+							  UsernamePasswordAuthenticationFilter.class);
 //			
 	}
 	

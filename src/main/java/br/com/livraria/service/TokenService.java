@@ -35,6 +35,12 @@ public class TokenService {
 				.compact();
 	}
 	
+	/**
+	 * It validades a user's token.
+	 * 
+	 * @param token
+	 * @return <code>true</code> if it is a valid token.
+	 */
 	public boolean isValid(String token) 
 	{
 		try {
