@@ -11,7 +11,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import br.com.livraria.service.AutenticacaoService;
 
 @Configuration
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
@@ -40,40 +41,41 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-//			// libera página de autenticação.
-//			//.antMatchers(HttpMethod.POST, "/auth").permitAll()
-//			
-//			// Somente quem tem perfil de ADMIN pode acessar os recursos de usuários na api.
-//			//.antMatchers("/usuarios/**").hasRole("ADMIN")
-//			
-//			// bloqueia todas outras requisições não autenticadas.
-			.anyRequest().authenticated()
-//			
-//			// gerar o formulário de login.
-			.and().formLogin()
+			// libera página de autenticação.
+			.antMatchers(HttpMethod.POST, "/auth").permitAll()
 			
-//			//.and().sessionManagement()
-//			//.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//			
-//			// desativa o Cross-site Request Forgery.
+			// Somente quem tem perfil de ADMIN pode acessar os recursos de usuários na api.
+			//.antMatchers("/usuarios/**").hasRole("ADMIN")
+			
+			// bloqueia todas outras requisições não autenticadas.
+			.anyRequest().authenticated()
+			
+			// gerar o formulário de login.
+			//.and().formLogin()
+			
+			// quando o usuário fizer login, não guarda informações no servidor.
+			.and().sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			
+			// desativa o Cross-site Request Forgery.
 			.and().csrf().disable();
 ////			.addFilterBefore(new VerificacaoTokenFilter(tokenService, usuarioRepository), 
 ////							  UsernamePasswordAuthenticationFilter.class);
 //			
 	}
 	
-//	@Override
-//	public void configure(WebSecurity web) throws Exception {
-//		// Todos endereços chamados pelo Swagger.
-//		web
-//			.ignoring()
-//			.antMatchers("/v2/api-docs", 
-//					"/configuration/ui",
-//					"/swagger-resources/**",
-//					"/configuration/security",
-//					"/swagger-ui.html",
-//					"/webjars/**");
-//	}
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		// Todos endereços chamados pelo Swagger.
+		web
+			.ignoring()
+			.antMatchers("/v2/api-docs", 
+					"/configuration/ui",
+					"/swagger-resources/**",
+					"/configuration/security",
+					"/swagger-ui.html",
+					"/webjars/**");
+	}
 	
 	@Override
 	@Bean

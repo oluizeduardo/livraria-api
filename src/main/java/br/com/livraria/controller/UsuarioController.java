@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/usuarios")
 
 //Documentação Swagger.
-@Api(tags = "Usuario")
+@Api(tags = "Usuarios")
 public class UsuarioController {
 	
 	@Autowired

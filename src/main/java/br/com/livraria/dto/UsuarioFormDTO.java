@@ -3,8 +3,6 @@ package br.com.livraria.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.sun.istack.NotNull;
-
 import lombok.Getter;
 import lombok.Setter;
 
