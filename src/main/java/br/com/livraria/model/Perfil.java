@@ -33,6 +33,10 @@ public class Perfil implements GrantedAuthority {
 
 
 	private static final long serialVersionUID = 1L;
+	
+	public static final String ADMIN = "ADMIN";
+	public static final String COMUM = "COMUM";
+	
 
 	@Id
 	@NonNull
@@ -48,5 +52,5 @@ public class Perfil implements GrantedAuthority {
 	public String getAuthority() {
 		return this.nome;
 	}
-	
+		
 }

@@ -13,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import br.com.livraria.model.Perfil;
 import br.com.livraria.repository.UsuarioRepository;
 import br.com.livraria.service.AutenticacaoService;
 import br.com.livraria.service.TokenService;
@@ -47,14 +48,25 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 			// libera página de autenticação.
 			.antMatchers(HttpMethod.POST, "/auth").permitAll()
 			
-			// Somente quem tem perfil de ADMIN pode acessar os recursos de usuários na api.
-			.antMatchers("/usuarios/**").hasRole("ADMIN")
+			
+			// Somente perfil ADMIN pode cadastrar, apagar ou atualizar um autor.
+			.antMatchers(HttpMethod.POST, "/autores/**").hasRole(Perfil.ADMIN)
+			.antMatchers(HttpMethod.DELETE, "/autores/**").hasRole(Perfil.ADMIN)
+			.antMatchers(HttpMethod.PUT, "/autores/**").hasRole(Perfil.ADMIN)
+			
+			
+			// Somente perfil ADMIN pode cadastrar, apagar ou atualizar um livro.
+			.antMatchers(HttpMethod.POST, "/livros/**").hasRole(Perfil.ADMIN)
+			.antMatchers(HttpMethod.DELETE, "/livros/**").hasRole(Perfil.ADMIN)
+			.antMatchers(HttpMethod.PUT, "/livros/**").hasRole(Perfil.ADMIN)
+			
+			
+			// Somente perfil de ADMIN pode acessar os recursos de usuários.
+			.antMatchers("/usuarios/**").hasRole(Perfil.ADMIN)
+
 			
 			// bloqueia todas outras requisições não autenticadas.
 			.anyRequest().authenticated()
-			
-			// gerar o formulário de login padrão do Spring.
-			//.and().formLogin()
 			
 			// quando o usuário fizer login, não guarda informações no servidor.
 			.and().sessionManagement()
@@ -63,8 +75,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 			// desativa o Cross-site Request Forgery.
 			.and().csrf().disable()
 			.addFilterBefore(new VerificacaoTokenFilter(tokenService, usuarioRepository), 
-							  UsernamePasswordAuthenticationFilter.class);
-//			
+							  UsernamePasswordAuthenticationFilter.class);		
 	}
 	
 	@Override
