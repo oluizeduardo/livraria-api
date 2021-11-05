@@ -38,6 +38,7 @@ Execute the class `LivrariaApiApplication.java` as a normal Java Application.
 
 | METHOD        | END-POINT                     | DESCRIPTION                    | FIELDS                                         |
 | ------------- |:-----------------------------:| :-----------------------------:|:----------------------------------------------:|
+| POST          | http://localhost:8080/auth    |  User authentication           | login, password                                |
 | POST          | http://localhost:8080/autores |  Register a new author.        | nome, dataNascimento, nacionalidade, curriculo |
 | GET           | http://localhost:8080/autores |  Get a list of authors.        |    |
 | PUT           | http://localhost:8080/autores |  Update an author.             | nome, dataNascimento, nacionalidade, curriculo   |
@@ -49,4 +50,9 @@ Execute the class `LivrariaApiApplication.java` as a normal Java Application.
 | DELETE        | http://localhost:8080/livros |  Delete a book.             |   |
 | GET           | http://localhost:8080/livros/{id} |  Get a a book's details. |    |
 | GET           | http://localhost:8080/relatorios/livraria  |  Get the library reports.          |    |
+| GET           | http://localhost:8080/usuarios |  Get a list of users |    |
+| POST          | http://localhost:8080/usuarios  |  Register a new user.          | login, nome, perfilId    |
+| GET           | http://localhost:8080/usuarios/{id}  |  Get a user's details.          |    |
+| PUT           | http://localhost:8080/usuarios |  Update a user's details.             | id, login, nome, perfilId   |
+| DELETE        | http://localhost:8080/usuarios/{id} |  Delete a user.             |   |
 
