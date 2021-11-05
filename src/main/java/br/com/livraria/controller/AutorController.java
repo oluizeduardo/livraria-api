@@ -27,12 +27,10 @@ import br.com.livraria.dto.AutorFormDTO;
 import br.com.livraria.service.AutorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-
-//Documentação Swagger.
 @Api(tags = "Autores")
-
 @RequestMapping("/autores")
 public class AutorController {
 	
@@ -42,7 +40,7 @@ public class AutorController {
 	
 	@GetMapping
 	@ApiOperation("Listar autores")
-	public Page<AutorDTO> listar(@PageableDefault(size = 5) Pageable paginacao) 
+	public Page<AutorDTO> listar(@ApiIgnore @PageableDefault(size = 5) Pageable paginacao) 
 	{
 		return autorService.listar(paginacao);
 	}

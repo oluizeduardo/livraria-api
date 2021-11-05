@@ -28,12 +28,10 @@ import br.com.livraria.dto.LivroFormDTO;
 import br.com.livraria.service.LivroService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-
-//Documentação Swagger.
 @Api(tags = "Livros")
-
 @RequestMapping("/livros")
 public class LivroController {
 	
@@ -44,7 +42,7 @@ public class LivroController {
 	
 	@GetMapping
 	@ApiOperation("Listar livros")
-	public Page<LivroDTO> listar(@PageableDefault(size = 5) Pageable paginacao) 
+	public Page<LivroDTO> listar(@ApiIgnore @PageableDefault(size = 5) Pageable paginacao) 
 	{
 		return livroService.listar(paginacao);
 	}

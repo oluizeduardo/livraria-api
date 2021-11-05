@@ -50,7 +50,6 @@ public class VerificacaoTokenFilter extends OncePerRequestFilter {
 			Integer idUsuario = tokenService.extrairIdUsuario(token);
 			
 			Usuario usuario = usuarioRepository.carregarPorIdComPerfil(idUsuario).get();
-//			Usuario usuario = usuarioRepository.findById(idUsuario).get();
 			
 			Authentication authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
 		

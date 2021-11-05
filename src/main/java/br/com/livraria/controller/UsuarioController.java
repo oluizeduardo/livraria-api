@@ -9,9 +9,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,16 +21,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.sun.istack.NotNull;
 
+import br.com.livraria.dto.AtualizacaoUsuarioFormDTO;
 import br.com.livraria.dto.UsuarioDTO;
 import br.com.livraria.dto.UsuarioFormDTO;
 import br.com.livraria.service.UsuarioService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/usuarios")
-
-//Documentação Swagger.
 @Api(tags = "Usuarios")
 public class UsuarioController {
 	
@@ -38,7 +40,7 @@ public class UsuarioController {
 	
 	@GetMapping
 	@ApiOperation("Listar usuários")
-	public Page<UsuarioDTO> listar(@PageableDefault(size = 5) Pageable paginacao) 
+	public Page<UsuarioDTO> listar(@ApiIgnore @PageableDefault(size = 5) Pageable paginacao) 
 	{
 		return service.listar(paginacao);
 	}
@@ -58,21 +60,21 @@ public class UsuarioController {
 		return ResponseEntity.created(uri ).body(usuarioDTO);
 	}
 	
-//	@PutMapping
-//	@ApiOperation("Atualizar um usuário")
-//	public ResponseEntity<UsuarioDTO> atualizar(@RequestBody @Valid AtualizacaoUsuarioFormDTO dto) 
-//	{
-//		UsuarioDTO usuarioDTOAtualizado = service.atualizar(dto);
-//		return ResponseEntity.ok(usuarioDTOAtualizado);
-//	}
+	@PutMapping
+	@ApiOperation("Atualizar um usuário")
+	public ResponseEntity<UsuarioDTO> atualizar(@RequestBody @Valid AtualizacaoUsuarioFormDTO dto) 
+	{
+		UsuarioDTO usuarioDTOAtualizado = service.atualizar(dto);
+		return ResponseEntity.ok(usuarioDTOAtualizado);
+	}
 	
-//	@DeleteMapping("{id}")
-//	@ApiOperation("Deletar um usuário")
-//	public ResponseEntity<UsuarioDTO> remover(@PathVariable @NotNull Integer id) 
-//	{
-//		service.remover(id);
-//		return ResponseEntity.noContent().build();
-//	}
+	@DeleteMapping("{id}")
+	@ApiOperation("Deletar um usuário")
+	public ResponseEntity<UsuarioDTO> remover(@PathVariable @NotNull Integer id) 
+	{
+		service.remover(id);
+		return ResponseEntity.noContent().build();
+	}
 	
 	@GetMapping("{id}")
 	@ApiOperation("Detalhar um usuário")

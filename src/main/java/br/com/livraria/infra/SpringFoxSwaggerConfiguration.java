@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RestController;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -18,8 +19,8 @@ public class SpringFoxSwaggerConfiguration {
 	@Bean
     public Docket api() { 
         return new Docket(DocumentationType.SWAGGER_2)  
-          .select()                                  
-          .apis(RequestHandlerSelectors.any())              
+          .select()                           
+          .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
           .paths(PathSelectors.any())                          
           .build()
           .globalRequestParameters(Arrays.asList(

@@ -30,6 +30,7 @@ public class Livro {
 	private Integer id;
 	private String titulo;
 	private LocalDate dataLancamento;
+	
 	@Column(name = "num_paginas")
 	private int numeroPaginas;
 	
@@ -48,12 +49,11 @@ public class Livro {
 	
 	public void atualizarInformacoes(String titulo, LocalDate dataLancamento, 
 			int numeroPaginas, Integer autorId) 
-	{
-		
-			this.titulo = titulo;
-			this.dataLancamento = dataLancamento;
-			this.numeroPaginas = numeroPaginas;
-			this.autor.setId(autorId);
+	{		
+		this.titulo = titulo;
+		this.dataLancamento = dataLancamento;
+		this.numeroPaginas = numeroPaginas;
+		this.autor.setId(autorId);
 	}
 	
 }

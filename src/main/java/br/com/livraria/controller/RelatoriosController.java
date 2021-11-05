@@ -13,10 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-
-//Documentação Swagger.
 @Api(tags = "Relatórios")
-
 @RequestMapping("/relatorios")
 public class RelatoriosController {
 
