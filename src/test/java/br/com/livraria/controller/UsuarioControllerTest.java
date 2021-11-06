@@ -40,15 +40,13 @@ import br.com.livraria.service.TokenService;
 
 // Executa em contexto transacional. Faz o rollback ao final de cada teste.
 @Transactional
-class AutorControllerTest {
+class UsuarioControllerTest {
 
 	/**
 	 * Objeto que simula as requisições HTTP.
 	 */
 	@Autowired
 	private MockMvc mvc;
-	
-	private String token;
 	
 	@Autowired
 	private TokenService tokenService;
@@ -59,6 +57,7 @@ class AutorControllerTest {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+	private String token;
 	
 	@BeforeEach
 	public void gerarToken() 
@@ -78,39 +77,35 @@ class AutorControllerTest {
 	
 	
 	@Test
-	void naoDeveriaCadastrarAutorComDadosIncompletos() throws Exception 
-	{
-		
+	void naoDeveriaCadastrarUsuarioComDadosIncompletos() throws Exception 
+	{		
 		String json = "{}";
 		
 		mvc
-			.perform(post("/autores")
-			.contentType(MediaType.APPLICATION_JSON)
-			.content(json)
-			.header("Authorization", "Bearer "+token))
+			.perform(post("/usuarios")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json)
+				.header("Authorization", "Bearer "+token))
+			
 			.andExpect(status().isBadRequest());		
 	}
 	
 	
 	@Test
-	void deveriaCadastrarAutorComDadosCompletos() throws Exception 
-	{
-		
-		String json = "{"
-					+ "\"nome\":\"Fyodor Dostoevsky\","
-					+ "\"dataNascimento\":\"1821-11-11\","
-					+ "\"nacionalidade\":\"Russia\","
-					+ "\"curriculo\":\"Autor de livros de romance psicológico.\""
-				+ "}";
+	void deveriaCadastrarUsuarioComDadosCompletos() throws Exception 
+	{		
+		String json = "{\"nome\":\"pessoa\",\"login\":\"pessoa@email.com\",\"perfilId\":1}";
+		String jsonReturn = "{\"nome\":\"pessoa\",\"login\":\"pessoa@email.com\"}";
 		
 		mvc
-			.perform(post("/autores")
-			.contentType(MediaType.APPLICATION_JSON)
-			.content(json)
-			.header("Authorization", "Bearer "+token))
+			.perform(post("/usuarios")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json)
+				.header("Authorization", "Bearer "+token))
+			
 			.andExpect(status().isCreated())
 			.andExpect(header().exists("Location"))
-			.andExpect(content().json(json));		
+			.andExpect(content().json(jsonReturn));		
 	}
 
 }
