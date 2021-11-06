@@ -7,11 +7,14 @@ import java.time.LocalDate;
 
 import javax.transaction.Transactional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,6 +23,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import br.com.livraria.model.Autor;
 import br.com.livraria.model.Livro;
+import br.com.livraria.model.Perfil;
+import br.com.livraria.model.Usuario;
+import br.com.livraria.service.TokenService;
 
 //Carrega as funções do Spring antes de inicializar o JUnit.
 @ExtendWith(SpringExtension.class)
@@ -38,13 +44,41 @@ import br.com.livraria.model.Livro;
 class AutorRepositoryTest {
 
 	@Autowired
+	private MockMvc mvc;
+	
+	@Autowired
+	private TokenService tokenService;
+	
+	@Autowired
 	private AutorRepository autorRepository;
 	
 	@Autowired
 	private LivroRepository livroRepository;
-
+	
 	@Autowired
-	private MockMvc mvc;
+	private PerfilRepository perfilRepository;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
+	private String token;
+	
+	
+	@BeforeEach
+	public void gerarToken() 
+	{
+		//Recupera do banco o perfil de id=1 => ADMIN
+		Perfil admin = perfilRepository.findById(1).get();
+		Usuario usuarioLogado = new Usuario("Teste", "test@test.com");
+		usuarioLogado.addPerfil(admin);
+		
+		usuarioRepository.save(usuarioLogado);
+		
+		Authentication authentication = 
+				new UsernamePasswordAuthenticationToken(usuarioLogado, usuarioLogado.getLogin());
+		
+		this.token = tokenService.gerarToken(authentication);
+	}
 	
 	
 	@Test
@@ -67,7 +101,11 @@ class AutorRepositoryTest {
 		livroRepository.save(livro2);
 		livroRepository.save(livro3);
 
-		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/relatorios/livraria")).andReturn();
+		MvcResult mvcResult = mvc
+				.perform(MockMvcRequestBuilders
+						.get("/relatorios/livraria")
+						.header("Authorization", "Bearer "+token))
+						.andReturn();
 
 		String json = "["
 				+ "{"
