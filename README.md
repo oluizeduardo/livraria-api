@@ -1,4 +1,7 @@
 # livraria-api
+<div align="center">
+  <img src="img/logoBootcampJava.jpg">
+ </div align="center">
 REST API developed during [Alura Bootcamp Java](https://www.alura.com.br/bootcamp/back-end-java/matriculas-abertas). 
 
 REST API to control a digital library.

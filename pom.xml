@@ -9,11 +9,14 @@
 		<version>2.5.4</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
+	
 	<groupId>br.com.livraria</groupId>
 	<artifactId>livraria-api</artifactId>
 	<version>1.0</version>
 	<name>livraria-api</name>
 	<description>Web service created to maniplate data from a library.</description>
+	
+	
 	<properties>
 		<java.version>11</java.version>
 	</properties>
