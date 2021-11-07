@@ -14,3 +14,5 @@ create table perfis_usuarios(
 
 insert into perfis values (1, "ROLE_ADMIN");
 insert into perfis values (2, "ROLE_COMUM");
+
+insert into perfis_usuarios values (1, 1);

@@ -38,9 +38,18 @@ public class UsuarioService {
 		return usuarios.map(t -> modelMapper.map(t, UsuarioDTO.class));
 	}
 
+	@Transactional
 	public UsuarioDTO cadastrar(UsuarioFormDTO dto) 
 	{
-		Usuario usuario = modelMapper.map(dto, Usuario.class);
+		/*
+		 * Linha removida pois o modelMapper estava definindo o id
+		 * do perfil como id do usuário, fazendo sobrescrever os usuários 
+		 * já cadastrados no banco.
+		 */
+//		Usuario usuario = modelMapper.map(dto, Usuario.class);
+		
+		// Linha adicionada para resolver o problema acima.
+		Usuario usuario = new Usuario(dto.getNome(), dto.getLogin());
 		
 		Perfil perfil = perfilRepository.getById(dto.getPerfilId());
 		usuario.addPerfil(perfil);
@@ -52,7 +61,8 @@ public class UsuarioService {
 	}
 
 	@Transactional
-	public UsuarioDTO atualizar(@Valid AtualizacaoUsuarioFormDTO dto) {
+	public UsuarioDTO atualizar(@Valid AtualizacaoUsuarioFormDTO dto) 
+	{
 		Usuario usuario = usuarioRepository.getById(dto.getId());		
 		usuario.atualizarInformacoes(dto.getNome(), dto.getLogin());
 		// Nesse momento a JPA percebe que uma entidade foi carregada do banco de dados
