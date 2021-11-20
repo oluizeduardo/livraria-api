@@ -39,7 +39,7 @@ class LivroRepositoryTest {
 	@Test
 	void deveriaCadastrarUmLivro() {
 		Autor autor1 = criaAutor("Fyodor Dostoevsky", LocalDate.of(1821, 11, 11), "Russia", 
-				"Autor de livros de românce psicológico.");
+				"Autor de livros de românce psicológico.");;
 
 		Livro livro = criaLivro("Crime e Castigo", LocalDate.of(1866, 1, 1), 500, autor1);
 
