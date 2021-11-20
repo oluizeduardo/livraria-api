@@ -13,6 +13,7 @@ Project developed during [Alura Bootcamp Java](https://www.alura.com.br/bootcamp
   - [Spring Dev Tools](https://docs.spring.io/spring-boot/docs/1.5.16.RELEASE/reference/html/using-boot-devtools.html)
   - [Spring Validation](https://www.baeldung.com/spring-boot-bean-validation)
   - Spring Boot
+* [Maven](https://maven.apache.org/)
 * [ModelMapper](http://modelmapper.org/)
 * [Project Lombok](https://projectlombok.org/)
 * Java 11
