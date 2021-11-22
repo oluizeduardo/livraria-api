@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import br.com.livraria.dto.AtualizacaoUsuarioFormDTO;
 import br.com.livraria.dto.UsuarioDTO;
 import br.com.livraria.dto.UsuarioFormDTO;
+import br.com.livraria.infra.EnviadorDeEmail;
 import br.com.livraria.model.Perfil;
 import br.com.livraria.model.Usuario;
 import br.com.livraria.repository.PerfilRepository;
@@ -29,6 +30,9 @@ public class UsuarioService {
 	
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private EnviadorDeEmail enviadorDeEmail;
 
 	
 	
@@ -54,10 +58,31 @@ public class UsuarioService {
 		Perfil perfil = perfilRepository.getById(dto.getPerfilId());
 		usuario.addPerfil(perfil);
 		usuario.setSenha();
+		usuario.setEmail(dto.getEmail());
 		
-		usuarioRepository.save(usuario);
+		Usuario usuarioCadastrado = usuarioRepository.save(usuario);
+		
+		if (usuarioCadastrado != null) 
+		{
+			enviarEmailAoNovoUsuario(usuario);
+		}
 		
 		return modelMapper.map(usuario, UsuarioDTO.class);
+	}
+
+
+	private void enviarEmailAoNovoUsuario(Usuario usuario) {
+		String destinatario = usuario.getEmail();
+		String assunto = "Bem vindo à Livraria Digital!";
+
+		// No futuro pesquisar sobre: spring boot thymeleaf email
+		String mensagem = String.format(
+				"Olá, %s!\n\n" 
+			+ "Segue abaixo seus dados de acesso ao sistema:\n\n"			
+			+ "\tLogin: %s\n" + "\tSenha: %s\n\n" + "Att.\n" + "Equipe de suporte.\n\n",
+						usuario.getNome(), usuario.getLogin(), usuario.getSenha());
+
+		enviadorDeEmail.enviarEmail(destinatario, assunto, mensagem);
 	}
 
 	@Transactional

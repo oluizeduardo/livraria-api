@@ -94,8 +94,8 @@ class UsuarioControllerTest {
 	@Test
 	void deveriaCadastrarUsuarioComDadosCompletos() throws Exception 
 	{		
-		String json = "{\"nome\":\"pessoa\",\"login\":\"pessoa@email.com\",\"perfilId\":1}";
-		String jsonReturn = "{\"nome\":\"pessoa\",\"login\":\"pessoa@email.com\"}";
+		String json = "{\"nome\":\"pessoa\",\"login\":\"@pessoa\",\"email\":\"pessoa@test.com\",\"perfilId\":1}";
+		String jsonReturn = "{\"nome\":\"pessoa\",\"login\":\"@pessoa\",\"email\":\"pessoa@test.com\"}";
 		
 		mvc
 			.perform(post("/usuarios")
