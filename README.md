@@ -32,6 +32,9 @@ Project developed during [Alura Bootcamp Java](https://www.alura.com.br/bootcamp
 # How to run
 Execute the class `LivrariaApiApplication.java` as a normal Java Application and then check the API through its documentation at http://localhost:8080/swagger-ui.html.
 
+# Deployed app
+[Heroku-Livraria-api](https://alura-livraria-api.herokuapp.com/swagger-ui.html)
+
 
 # Endpoints
 
