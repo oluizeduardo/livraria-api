@@ -23,11 +23,11 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       
-      - name: Executar os testes
-        run: mvn clean test --file pom.xml
+      #- name: Executar os testes
+      #  run: mvn clean test --file pom.xml
 
   deploy:
-    needs: test
+    #needs: test
     runs-on: ubuntu-latest
 
     steps:
